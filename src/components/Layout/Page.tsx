@@ -12,7 +12,7 @@ export default function Page({
   pageName?: string;
 }) {
   return (
-    <main className="body bg-cover bg-center h-full">
+    <main className="bg-[#f8f9fa] bg-cover bg-center h-full">
       <Header />
       <section
         className={cn(
