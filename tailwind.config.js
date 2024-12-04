@@ -5,12 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#11998E",
-        secondary: "#38EF7D",
-        pink: {
-          DEFAULT: "#ff99c8",
-          dark: "#e88eed",
-        },
+        primary: "#001845",
+        secondary: "#0466c8",
       },
       borderRadius: {
         lg: "var(--radius)",
