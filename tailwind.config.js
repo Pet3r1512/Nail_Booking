@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#001845",
-        secondary: "#0466c8",
+        primary: "#0466c8",
+        secondary: "#001845",
       },
       borderRadius: {
         lg: "var(--radius)",
