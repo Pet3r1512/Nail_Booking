@@ -6,11 +6,11 @@ import { MapPin } from "lucide-react";
 export default function Page({
   children,
   className,
-  pageName,
+  pageClassName,
 }: {
   children: ReactNode;
   className?: string;
-  pageName?: string;
+  pageClassName?: string;
 }) {
   return (
     <main className="bg-[#f8f9fa] bg-cover bg-center h-full">
@@ -19,17 +19,9 @@ export default function Page({
       </p>
       <Header />
       <section
-        className={cn(
-          "flex flex-col mx-auto max-w-[1440px] min-h-screen",
-          pageName,
-        )}
+        className={cn("flex flex-col mx-auto max-w-[1440px]", pageClassName)}
       >
-        <div
-          className={cn(
-            "mx-auto w-full max-w-7xl px-6 min-h-screen",
-            className,
-          )}
-        >
+        <div className={cn("mx-auto w-full max-w-7xl px-6", className)}>
           {children}
         </div>
       </section>
