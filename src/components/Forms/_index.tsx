@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "./DatePicker";
 import { TimePicker } from "./TimePicker";
+import PhoneInput from "./PhoneInput";
 
 export default function BookingForm() {
   return (
@@ -12,19 +13,12 @@ export default function BookingForm() {
         <div className="w-full space-y-3">
           <label htmlFor="name">Họ và Tên</label>
           <Input
-            className="inputs ring-0 border-2 border-gray-400 focus-visible:ring-offset-0 focus-visible:ring-0"
+            className="inputs ring-0 border-[1.25px] border-[#ededed] focus-visible:ring-offset-0 focus-visible:ring-0"
             type="text"
             placeholder="Tên của bạn"
           />
         </div>
-        <div className="w-full space-y-3">
-          <label htmlFor="phone">Số điện thoại</label>
-          <Input
-            className=" inputs ring-0 border-2 border-gray-400 focus-visible:ring-offset-0 focus-visible:ring-0"
-            type="tel"
-            placeholder="090*******"
-          />
-        </div>
+        <PhoneInput />
         <div className="w-full flex flex-col gap-y-3">
           <label htmlFor="date">Ngày đặt hẹn</label>
           <DatePicker />
