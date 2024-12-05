@@ -28,8 +28,12 @@ export default function BookingForm() {
           <label htmlFor="date">Ngày đặt hẹn</label>
           <DatePicker />
         </div>
+        <div className="w-full flex flex-col gap-y-3">
+          <label htmlFor="time">Khung giờ</label>
+          <TimePicker />
+        </div>
       </form>
-      <button className="bg-green-500 text-white px-3 py-2 rounded-2xl font-semibold w-fit">
+      <button className="bg-green-500 text-white px-3 py-2 rounded-2xl font-semibold">
         {"Xác Nhận"}
       </button>
     </section>
