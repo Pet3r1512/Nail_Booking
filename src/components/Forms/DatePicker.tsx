@@ -63,7 +63,7 @@ export function DatePicker() {
           initialFocus
         />
       </PopoverContent>
-      {warning !== "" ? <p className="text-orange-600">{warning}</p> : <></>}
+      {warning !== "" ? <p className="text-red-500">{warning}</p> : <></>}
     </Popover>
   );
 }
