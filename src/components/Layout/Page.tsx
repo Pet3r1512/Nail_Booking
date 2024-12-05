@@ -13,7 +13,7 @@ export default function Page({
   pageClassName?: string;
 }) {
   return (
-    <main className="bg-[#f8f9fa] bg-cover bg-center h-full">
+    <main className="bg-[#f8f9fa] bg-cover bg-center h-screen">
       <p className="flex items-center justify-center gap-x-2 cursor-default font-semibold text-sm lg:hidden py-2 bg-primary text-white">
         <MapPin /> 73/14 Đường Số 1, p.11, q.Gò Vấp
       </p>
