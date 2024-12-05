@@ -22,16 +22,16 @@ function capitalizeFirstLetters(text: string) {
 
 export function DatePicker() {
   const [date, setDate] = useState<Date>();
-  const [warning, setWarning] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate());
 
     if (date && date < tomorrow) {
-      setWarning("Vui lòng đặt lịch bắt đầu từ ngày mai");
+      setError("Vui lòng đặt lịch bắt đầu từ ngày mai");
     } else {
-      setWarning("");
+      setError("");
     }
   }, [date]);
 
@@ -41,8 +41,9 @@ export function DatePicker() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "w-full justify-start text-left font-normal !border-[1.25px] !border-[#ededed]",
             !date && "text-muted-foreground",
+            date && error !== "" ? "!border-green-400" : "",
           )}
         >
           <CalendarIcon />
@@ -63,7 +64,7 @@ export function DatePicker() {
           initialFocus
         />
       </PopoverContent>
-      {warning !== "" ? <p className="text-red-500">{warning}</p> : <></>}
+      {error !== "" ? <p className="text-red-500">{error}</p> : <></>}
     </Popover>
   );
 }
