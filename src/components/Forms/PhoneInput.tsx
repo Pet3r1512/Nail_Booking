@@ -28,7 +28,7 @@ export default function PhoneInput() {
       <Input
         className={cn(
           " inputs ring-0 border-[1.25px] border-[#ededed] focus-visible:ring-offset-0 focus-visible:ring-0",
-          error === "" && "border-green-400",
+          error === "" && phone !== "" && "border-green-400",
         )}
         type="tel"
         value={phone}
