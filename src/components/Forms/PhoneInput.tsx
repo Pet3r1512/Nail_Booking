@@ -1,6 +1,8 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
+import useDebounce from "@/hooks/useDebounce";
+import { useFormStore } from "@/store/formStore";
 
 export default function PhoneInput() {
   const [phone, setPhone] = useState("");
@@ -24,6 +26,13 @@ export default function PhoneInput() {
       setError("");
     }
   };
+
+  useEffect(() => {
+    if (error === "") {
+      updateField("phoneNumber", debouncedPhoneNumber);
+    }
+  }, [error, debouncedPhoneNumber, updateField]);
+
   return (
     <div className="w-full space-y-3">
       <label htmlFor="phone">Số điện thoại</label>
