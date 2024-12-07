@@ -2,8 +2,19 @@ import { Input } from "@/components/ui/input";
 import { DatePicker } from "./DatePicker";
 import { TimePicker } from "./TimePicker";
 import PhoneInput from "./PhoneInput";
+import { useEffect, useState } from "react";
+import { useFormStore } from "@/store/formStore";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function BookingForm() {
+  const { updateField, readForm } = useFormStore();
+  const [name, setNameInput] = useState<string>("");
+  const debouncedSearchTerm = useDebounce(name, 500);
+
+  useEffect(() => {
+    updateField("name", debouncedSearchTerm);
+  }, [debouncedSearchTerm, updateField, readForm]);
+
   return (
     <section className="max-w-lg w-full bg-white shadow-2xl min-h-96 rounded-2xl p-5 lg:px-5 lg:py-14 flex flex-col">
       <form className="h-full w-full flex flex-col gap-y-6 items-center flex-1 pt-5 pb-8">
@@ -13,9 +24,12 @@ export default function BookingForm() {
         <div className="w-full space-y-3">
           <label htmlFor="name">Họ và Tên</label>
           <Input
+            id="name"
             className="inputs ring-0 border-[1.25px] border-[#ededed] focus-visible:ring-offset-0 focus-visible:ring-0"
             type="text"
             placeholder="Tên của bạn"
+            value={name}
+            onChange={(e) => setNameInput(e.target.value)} // Update the local state
           />
         </div>
         <PhoneInput />
