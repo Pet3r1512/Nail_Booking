@@ -13,6 +13,7 @@ export default function BookingForm() {
 
   useEffect(() => {
     updateField("name", debouncedName);
+  }, [debouncedName, updateField]);
 
   return (
     <section className="max-w-lg w-full bg-white shadow-2xl min-h-96 rounded-2xl p-5 lg:px-5 lg:py-14 flex flex-col">
