@@ -9,11 +9,11 @@ import useDebounce from "@/hooks/useDebounce";
 export default function BookingForm() {
   const { updateField, readForm } = useFormStore();
   const [name, setNameInput] = useState<string>("");
-  const debouncedSearchTerm = useDebounce(name, 500);
+  const debouncedName = useDebounce(name, 500);
 
   useEffect(() => {
-    updateField("name", debouncedSearchTerm);
-  }, [debouncedSearchTerm, updateField, readForm]);
+    updateField("name", debouncedName);
+  }, [debouncedName, updateField, readForm]);
 
   return (
     <section className="max-w-lg w-full bg-white shadow-2xl min-h-96 rounded-2xl p-5 lg:px-5 lg:py-14 flex flex-col">
