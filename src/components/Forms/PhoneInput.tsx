@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 export default function PhoneInput() {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const debouncedPhoneNumber = useDebounce(phone, 500);
+  const { updateField } = useFormStore();
 
   const validatePhoneNumber = (phone: string) => {
     const regex = /^0\d{9}$/;
