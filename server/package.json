@@ -7,7 +7,7 @@
   "packageManager": "pnpm@9.13.2",
   "scripts": {
     "dev": "vite",
-    "build": "vite drizzle.config.ts && npx drizzle-kit generate",
+    "build": "pnpm install --prod=false && tsc && tsc-alias",
     "db:generate": "drizzle-kit generate --dialect=postgresql --schema=src/db/schema.ts --out=./drizzle",
     "db:migrate": "tsx ./src/migrate.ts"
   },
