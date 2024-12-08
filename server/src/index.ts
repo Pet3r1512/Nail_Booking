@@ -2,8 +2,12 @@
 import { Hono } from "hono";
 import { customers } from "./db/schema";
 import db from "./db";
+type Bindings = {
+  MY_NAME: string;
+  MY_KV: KVNamespace;
+};
 
-const app = new Hono();
+const app = new Hono<{ Bindings: Bindings }>();
 
 app.get("/", (c) => {
   return c.json({
