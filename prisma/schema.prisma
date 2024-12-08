@@ -13,3 +13,19 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
+
+model Customer {
+  customerId  Int       @id @default(autoincrement())
+  name        String
+  phoneNumber String
+  booking     Booking[]
+}
+
+model Booking {
+  id         Int    @id @default(autoincrement())
+  date       String
+  time       String
+  customerId Int    @unique
+
+  customer Customer @relation(fields: [customerId], references: [customerId])
+}
