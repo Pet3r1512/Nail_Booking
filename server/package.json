@@ -1,6 +1,9 @@
 {
   "name": "booking-server",
   "type": "module",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
