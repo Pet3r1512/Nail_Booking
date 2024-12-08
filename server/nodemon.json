@@ -1,0 +1,4 @@
+{
+  "exec": "ts-node -r dotenv/config src/index.ts",
+  "ext": "ts,js,json"
+}
