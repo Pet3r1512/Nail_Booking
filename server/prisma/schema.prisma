@@ -22,10 +22,11 @@ model Customer {
 }
 
 model Booking {
-  id         Int    @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   date       String
   time       String
-  customerId Int    @unique
+  customerId Int      @unique
+  createdAt  DateTime @default(now())
 
   customer Customer @relation(fields: [customerId], references: [customerId])
 }
