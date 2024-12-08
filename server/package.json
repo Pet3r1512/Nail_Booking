@@ -7,7 +7,7 @@
   "packageManager": "pnpm@9.13.2",
   "scripts": {
     "dev": "vite",
-    "build": "pnpm install --prod=false && tsc && tsc-alias",
+    "build": "vite drizzle.config.ts && npx drizzle-kit generate",
     "db:generate": "drizzle-kit generate --dialect=postgresql --schema=src/db/schema.ts --out=./drizzle",
     "db:migrate": "tsx ./src/migrate.ts"
   },
@@ -15,16 +15,15 @@
     "@neondatabase/serverless": "^0.10.4",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.37.0",
-    "hono": "^4.6.13",
-    "typescript": "^5.7.2"
+    "hono": "^4.6.13"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
     "@hono/vite-build": "^1.0.0",
     "@hono/vite-dev-server": "^0.16.0",
     "drizzle-kit": "^0.29.1",
-    "tsc-alias": "^1.8.10",
     "tsx": "^4.19.2",
-    "vite": "^5.2.12"
+    "vite": "^5.2.12",
+    "wrangler": "^3.93.0"
   }
 }
