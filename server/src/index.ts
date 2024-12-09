@@ -66,7 +66,6 @@ app.post("/bookings/:date", async (c) => {
 
     return c.json({ available: true, bookings: result }, 200);
   } catch (error) {
-    console.error("Error checking bookings:", error);
     return c.json({ error: "Something went wrong." }, 500);
   }
 });
