@@ -53,7 +53,7 @@ export default function BookingForm() {
           body: JSON.stringify(form),
         },
       );
-      if (!response.ok) {
+      if (!response.ok || error !== "") {
         setError("Thất bại");
         toast({
           variant: "destructive",
