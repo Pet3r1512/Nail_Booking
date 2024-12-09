@@ -5,15 +5,25 @@ import PhoneInput from "./PhoneInput";
 import { useEffect, useState } from "react";
 import { useFormStore } from "@/store/formStore";
 import useDebounce from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
 
 export default function BookingForm() {
-  const { updateField } = useFormStore();
+  const { updateField, readForm } = useFormStore();
   const [name, setNameInput] = useState<string>("");
+  const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
   const debouncedName = useDebounce(name, 500);
 
   useEffect(() => {
     updateField("name", debouncedName);
   }, [debouncedName, updateField]);
+
+  useEffect(() => {
+    const formData = readForm();
+    const allFieldsFilled = Object.values(formData).every(
+      (value) => value !== "",
+    );
+    setSubmitEnabled(allFieldsFilled);
+  }, [readForm, name]);
 
   return (
     <section className="max-w-lg w-full bg-white shadow-2xl min-h-96 rounded-2xl p-5 lg:px-5 lg:py-14 flex flex-col">
@@ -42,7 +52,15 @@ export default function BookingForm() {
           <TimePicker />
         </div>
       </form>
-      <button className="bg-green-500 text-white px-3 py-2 rounded-2xl font-semibold">
+      <button
+        disabled={!submitEnabled}
+        className={cn(
+          "text-white px-3 py-2 rounded-2xl font-semibold",
+          submitEnabled
+            ? "bg-green-500 cursor-pointer"
+            : "bg-gray-500 cursor-not-allowed",
+        )}
+      >
         {"Xác Nhận"}
       </button>
     </section>
