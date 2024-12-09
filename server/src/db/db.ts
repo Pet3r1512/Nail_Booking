@@ -3,7 +3,6 @@ import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
 
 config({ path: ".env" });
-const sql = neon(process.env.DATABASE_URL!);
-const db = drizzle(sql);
 
-export default db;
+const postgresql = neon(process.env.DATABASE_URL!);
+export const db = drizzle({ client: postgresql });

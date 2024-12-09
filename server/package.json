@@ -1,15 +1,11 @@
 {
-  "name": "booking-server",
-  "type": "module",
-  "engines": {
-    "node": ">=18.18.0"
-  },
-  "packageManager": "pnpm@9.13.2",
+  "name": "server",
   "scripts": {
-    "dev": "vite",
-    "build": "vite drizzle.config.ts && npx drizzle-kit generate",
-    "db:generate": "drizzle-kit generate --dialect=postgresql --schema=src/db/schema.ts --out=./drizzle",
-    "db:migrate": "tsx ./src/migrate.ts"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "db:generate": "drizzle-kit generate --schema=./src/db/schema.ts",
+    "db:mirgrate": "tsx ./src/db/mirgrate.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
@@ -18,12 +14,9 @@
     "hono": "^4.6.13"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240529.0",
-    "@hono/vite-build": "^1.0.0",
-    "@hono/vite-dev-server": "^0.16.0",
+    "@cloudflare/workers-types": "^4.20241205.0",
     "drizzle-kit": "^0.29.1",
     "tsx": "^4.19.2",
-    "vite": "^5.2.12",
-    "wrangler": "^3.93.0"
+    "wrangler": "^3.88.0"
   }
 }
