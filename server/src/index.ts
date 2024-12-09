@@ -48,7 +48,6 @@ app.get("/", async (c) => {
 
 app.post("/bookings/:date", async (c) => {
   const checkDate: string = c.req.param("date");
-  console.log(checkDate);
 
   try {
     const postgresql = neon(c.env.DATABASE_URL);
