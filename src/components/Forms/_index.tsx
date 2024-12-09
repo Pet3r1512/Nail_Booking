@@ -1,11 +1,10 @@
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "./DatePicker";
-import { TimePicker } from "./TimePicker";
-import PhoneInput from "./PhoneInput";
 import { useEffect, useState } from "react";
 import { useFormStore } from "@/store/formStore";
 import useDebounce from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
+import SlotPicker from "./SlotPicker";
+import PhoneInput from "./PhoneInput";
 
 export default function BookingForm() {
   const { updateField, readForm } = useFormStore();
@@ -43,14 +42,7 @@ export default function BookingForm() {
           />
         </div>
         <PhoneInput />
-        <div className="w-full flex flex-col gap-y-3">
-          <label htmlFor="date">Ngày đặt hẹn</label>
-          <DatePicker />
-        </div>
-        <div className="w-full flex flex-col gap-y-3">
-          <label htmlFor="time">Khung giờ</label>
-          <TimePicker />
-        </div>
+        <SlotPicker />
       </form>
       <button
         disabled={!submitEnabled}
