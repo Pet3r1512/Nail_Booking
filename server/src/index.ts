@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import { Hono } from "hono";
@@ -15,7 +16,7 @@ app.use("/*", cors());
 app.use(
   "/*",
   cors({
-    origin: "nail-booking.pages.dev", // Ensure this matches your Vite server's origin
+    origin: "nail-booking.pages.dev",
     // origin: "http://localhost:5173",
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
     allowMethods: ["POST", "GET", "OPTIONS"],
@@ -66,6 +67,52 @@ app.post("/bookings/:date", async (c) => {
 
     return c.json({ available: true, bookings: result }, 200);
   } catch (error) {
+    return c.json({ error: "Something went wrong." }, 500);
+  }
+});
+
+app.post("/bookings/", async (c) => {
+  const bookingData = await c.req.json();
+
+  try {
+    if (!bookingData || typeof bookingData !== "object") {
+      return c.json({ error: "Invalid Booking Data" }, 400);
+    }
+
+    const postgresql = neon(c.env.DATABASE_URL);
+    const db = drizzle(postgresql);
+
+    const existingCustomer = await db
+      .select()
+      .from(customers)
+      .where(eq(customers.phoneNumber, bookingData.phoneNumber));
+
+    let customerId;
+    if (existingCustomer.length === 0) {
+      const [newCustomer] = await db
+        .insert(customers)
+        .values({
+          name: bookingData.name,
+          phoneNumber: bookingData.phoneNumber,
+        })
+        .returning({ customerId: customers.id });
+      customerId = newCustomer.customerId;
+    } else {
+      customerId = existingCustomer[0].id;
+    }
+
+    const newBooking = await db
+      .insert(bookings)
+      .values({
+        date: bookingData.date,
+        time: bookingData.time,
+        customerId: customerId,
+      })
+      .returning();
+
+    return c.json({ success: true, booking: newBooking }, 201);
+  } catch (error) {
+    console.error(error);
     return c.json({ error: "Something went wrong." }, 500);
   }
 });
