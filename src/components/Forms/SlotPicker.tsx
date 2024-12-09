@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
@@ -97,7 +98,7 @@ export default function SlotPicker({
           },
         );
         if (!response.ok) {
-          throw new Error("Failed to fetch slots");
+          setError("Thất bại");
         }
         const data = await response.json();
         const bookings: BookingType[] = data.bookings;
@@ -116,7 +117,6 @@ export default function SlotPicker({
         setMorningSlots(2 - morningBookings);
         setAfternoonSlots(2 - afternoonBookings);
       } catch (error) {
-        console.error(error);
         setError("Thất bại");
       } finally {
         setLoading(false);
