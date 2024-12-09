@@ -15,7 +15,8 @@ app.use("/*", cors());
 app.use(
   "/*",
   cors({
-    origin: "http://localhost:5173", // Ensure this matches your Vite server's origin
+    origin: "nail-booking.pages.dev", // Ensure this matches your Vite server's origin
+    // origin: "http://localhost:5173",
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
     allowMethods: ["POST", "GET", "OPTIONS"],
     exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
