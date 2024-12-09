@@ -86,7 +86,8 @@ export default function SlotPicker({
       setLoading(true);
       try {
         const response = await fetch(
-          `http://127.0.0.1:8787/bookings/${formattedDate}`,
+          // `http://127.0.0.1:8787/bookings/${formattedDate}`,
+          `https://server.pttp15122002.workers.dev/bookings/${formattedDate}`,
           {
             method: "POST",
             headers: {
