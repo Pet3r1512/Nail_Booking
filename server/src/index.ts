@@ -1,52 +1,30 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
 import { Hono } from "hono";
 import { customers } from "./db/schema";
-import db from "./db";
-type Bindings = {
-  MY_NAME: string;
-  MY_KV: KVNamespace;
+
+export type Env = {
+  DATABASE_URL: string;
 };
 
-const app = new Hono<{ Bindings: Bindings }>();
+const app = new Hono<{ Bindings: Env }>();
 
-app.get("/", (c) => {
-  return c.json({
-    message: "ok",
-  });
-});
-
-app.post("/customers", async (c) => {
+app.get("/", async (c) => {
   try {
-    const { name, phoneNumber } = await c.req.json();
+    const sql = neon(c.env.DATABASE_URL);
 
-    if (
-      !name ||
-      typeof name !== "string" ||
-      !phoneNumber ||
-      typeof phoneNumber !== "string"
-    ) {
-      return c.json(
-        {
-          error: "Invalid credentials",
-        },
-        400,
-      );
-    }
+    const db = drizzle(sql);
 
-    const customer = { name, phoneNumber };
+    const result = await db.select().from(customers);
 
-    const result = await db.insert(customers).values(customer).returning();
-
+    return c.json({
+      result,
+    });
+  } catch (error) {
+    console.log(error);
     return c.json(
       {
-        customer: result[0],
-      },
-      201,
-    );
-  } catch (e) {
-    return c.json(
-      {
-        error: (e as Error).message || "An unexpected error occurred",
+        error,
       },
       400,
     );

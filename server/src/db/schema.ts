@@ -26,3 +26,9 @@ export const bookingRelations = relations(bookings, ({ one }) => ({
     references: [customers.id],
   }),
 }));
+
+export type InsertCustomer = typeof customers.$inferInsert;
+export type SelectCustomer = typeof customers.$inferSelect;
+
+export type InsertBooking = typeof bookings.$inferInsert;
+export type SelectBooking = typeof bookings.$inferSelect;
