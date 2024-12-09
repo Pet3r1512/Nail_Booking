@@ -1,10 +1,16 @@
-import { ChangeEvent, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import useDebounce from "@/hooks/useDebounce";
 import { useFormStore } from "@/store/formStore";
 
-export default function PhoneInput() {
+export default function PhoneInput({
+  setForm,
+}: {
+  setForm: React.Dispatch<SetStateAction<any>>;
+}) {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const debouncedPhoneNumber = useDebounce(phone, 500);
@@ -30,8 +36,9 @@ export default function PhoneInput() {
   useEffect(() => {
     if (error === "") {
       updateField("phoneNumber", debouncedPhoneNumber);
+      setForm((prev: any) => ({ ...prev, phoneNumber: debouncedPhoneNumber }));
     }
-  }, [error, debouncedPhoneNumber, updateField]);
+  }, [debouncedPhoneNumber, error, updateField]);
 
   return (
     <div className="w-full space-y-3">

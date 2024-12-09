@@ -16,6 +16,7 @@ export type FormData = {
 
 interface FormStore {
   formData: FormData;
+  isFormValid: boolean; // Add this property to track form validity
   updateField: (
     field: keyof FormData,
     value: string | "morning" | "afternoon",
@@ -25,13 +26,24 @@ interface FormStore {
 
 export const useFormStore = create<FormStore>((set, get) => ({
   formData: initFormData,
-  updateField: (field, value) =>
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        [field]: value,
-      },
-    })),
+  isFormValid: false, // Default to false until all fields are filled
+  updateField: (field, value) => {
+    set((state) => {
+      const updatedFormData = { ...state.formData, [field]: value };
+
+      // Check if all fields are filled
+      const isValid =
+        updatedFormData.name !== "" &&
+        updatedFormData.phoneNumber !== "" &&
+        updatedFormData.date !== "" &&
+        updatedFormData.time !== "";
+
+      return {
+        formData: updatedFormData,
+        isFormValid: isValid, // Update the form validity
+      };
+    });
+  },
   readForm: () => {
     return get().formData;
   },

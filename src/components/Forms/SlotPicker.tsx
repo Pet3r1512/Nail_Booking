@@ -1,3 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Select,
   SelectContent,
@@ -15,7 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useFormStore } from "@/store/formStore";
 import { Calendar } from "@/components/ui/calendar";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { vi } from "date-fns/locale";
 import { format } from "date-fns";
@@ -46,7 +49,11 @@ function formatDate(inputDate: Date) {
   return `${year}-${month}-${day}`;
 }
 
-export default function SlotPicker() {
+export default function SlotPicker({
+  setForm,
+}: {
+  setForm: React.Dispatch<SetStateAction<any>>;
+}) {
   const { updateField } = useFormStore();
   const [time, setTime] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -59,8 +66,8 @@ export default function SlotPicker() {
     })(),
   );
   const [formattedDate, setFormattedDate] = useState<string>("");
-  const [morningSlots, setMorningSlots] = useState(2); // 2 slots available for morning
-  const [afternoonSlots, setAfternoonSlots] = useState(2); // 2 slots available for afternoon
+  const [morningSlots, setMorningSlots] = useState(2);
+  const [afternoonSlots, setAfternoonSlots] = useState(2);
 
   useEffect(() => {
     const tomorrow = new Date();
@@ -71,6 +78,7 @@ export default function SlotPicker() {
     } else {
       setError("");
       setFormattedDate(formatDate(date));
+      setForm((prev: any) => ({ ...prev, date: formatDate(date) }));
     }
   }, [date]);
 
@@ -97,7 +105,6 @@ export default function SlotPicker() {
         let morningBookings = 0;
         let afternoonBookings = 0;
 
-        // Calculate the number of bookings for each slot
         bookings.forEach((booking) => {
           if (booking.time === "morning") {
             morningBookings++;
@@ -106,9 +113,8 @@ export default function SlotPicker() {
           }
         });
 
-        // Calculate remaining slots
-        setMorningSlots(2 - morningBookings); // 2 slots available in the morning
-        setAfternoonSlots(2 - afternoonBookings); // 2 slots available in the afternoon
+        setMorningSlots(2 - morningBookings);
+        setAfternoonSlots(2 - afternoonBookings);
       } catch (error) {
         console.error(error);
         setError("Thất bại");
@@ -125,6 +131,7 @@ export default function SlotPicker() {
   const handleChange = (value: string) => {
     setTime(value);
     updateField("time", value);
+    setForm((prev: any) => ({ ...prev, time: value }));
   };
 
   return (
@@ -173,7 +180,9 @@ export default function SlotPicker() {
           onValueChange={handleChange}
         >
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Vui lòng chọn thời gian" />
+            <SelectValue
+              placeholder={loading ? "Vui lòng đợi" : "Vui lòng chọn thời gian"}
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
