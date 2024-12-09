@@ -7,26 +7,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useFormStore } from "@/store/formStore";
 import { useState } from "react";
 
 export function TimePicker() {
+  const { updateField } = useFormStore();
+  const { time, setTime } = useState<string>("");
   const [slots, setSlots] = useState({
-    morning: 0,
+    morning: 2,
     afternoon: 2,
   });
 
   const handleChange = (value: string) => {
-    if (value === "morning") {
-      setSlots((prevSlots) => ({
-        ...prevSlots,
-        morning: prevSlots.morning - 1,
-      }));
-    } else if (value === "afternoon") {
-      setSlots((prevSlots) => ({
-        ...prevSlots,
-        afternoon: prevSlots.afternoon - 1,
-      }));
-    }
+    setTime(value);
+    updateField("time", value);
   };
 
   return (
