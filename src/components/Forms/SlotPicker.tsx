@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Select,
   SelectContent,
@@ -176,6 +175,7 @@ export default function SlotPicker({
       <div className="w-full flex flex-col gap-y-3">
         <label htmlFor="time">Khung giờ</label>
         <Select
+          value={time}
           disabled={afternoonSlots === 0 && morningSlots === 0}
           onValueChange={handleChange}
         >
