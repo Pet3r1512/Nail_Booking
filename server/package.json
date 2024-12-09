@@ -4,18 +4,19 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
-    "db:generate": "drizzle-kit generate --schema=./src/db/schema.ts",
+    "db:generate": "drizzle-kit generate --dialect=postgresql --schema=./src/db/schema.ts",
     "db:mirgrate": "tsx ./src/db/mirgrate.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
-    "dotenv": "^16.4.7",
     "drizzle-orm": "^0.37.0",
     "hono": "^4.6.13"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241205.0",
+    "dotenv": "^16.4.7",
     "drizzle-kit": "^0.29.1",
+    "postgres": "^3.4.5",
     "tsx": "^4.19.2",
     "wrangler": "^3.88.0"
   }
