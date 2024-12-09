@@ -1,19 +1,37 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "./DatePicker";
-import { TimePicker } from "./TimePicker";
-import PhoneInput from "./PhoneInput";
 import { useEffect, useState } from "react";
 import { useFormStore } from "@/store/formStore";
 import useDebounce from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
+import SlotPicker from "./SlotPicker";
+import PhoneInput from "./PhoneInput";
 
 export default function BookingForm() {
   const { updateField } = useFormStore();
   const [name, setNameInput] = useState<string>("");
+  const [form, setForm] = useState({
+    name: "",
+    phoneNumber: "",
+    date: "",
+    time: "",
+  });
+  const [allow, setAllow] = useState(false);
   const debouncedName = useDebounce(name, 500);
 
   useEffect(() => {
     updateField("name", debouncedName);
-  }, [debouncedName, updateField]);
+    setForm((prev) => ({ ...prev, name: debouncedName }));
+  }, [debouncedName]);
+
+  useEffect(() => {
+    if (form.name === "" || form.phoneNumber === "" || form.time === "") {
+      setAllow(false);
+    } else {
+      console.log(form);
+      setAllow(true);
+    }
+  }, [form]);
 
   return (
     <section className="max-w-lg w-full bg-white shadow-2xl min-h-96 rounded-2xl p-5 lg:px-5 lg:py-14 flex flex-col">
@@ -29,20 +47,21 @@ export default function BookingForm() {
             type="text"
             placeholder="Tên của bạn"
             value={name}
-            onChange={(e) => setNameInput(e.target.value)} // Update the local state
+            onChange={(e) => setNameInput(e.target.value)}
           />
         </div>
-        <PhoneInput />
-        <div className="w-full flex flex-col gap-y-3">
-          <label htmlFor="date">Ngày đặt hẹn</label>
-          <DatePicker />
-        </div>
-        <div className="w-full flex flex-col gap-y-3">
-          <label htmlFor="time">Khung giờ</label>
-          <TimePicker />
-        </div>
+        <PhoneInput setForm={setForm} />
+        <SlotPicker setForm={setForm} />
       </form>
-      <button className="bg-green-500 text-white px-3 py-2 rounded-2xl font-semibold">
+      <button
+        disabled={!allow}
+        className={cn(
+          " text-white px-3 py-2 rounded-2xl font-semibold",
+          allow
+            ? "bg-green-500 cursor-pointer"
+            : "bg-gray-500 cursor-not-allowed",
+        )}
+      >
         {"Xác Nhận"}
       </button>
     </section>
