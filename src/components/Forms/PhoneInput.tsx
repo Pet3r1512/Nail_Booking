@@ -38,8 +38,7 @@ export default function PhoneInput() {
       <label htmlFor="phone">Số điện thoại</label>
       <Input
         className={cn(
-          " inputs ring-0 border-[1.25px] border-[#ededed] focus-visible:ring-offset-0 focus-visible:ring-0",
-          error === "" && phone !== "" && "border-green-400",
+          "inputs ring-0 border-[1.25px] border-[#ededed] focus-visible:ring-offset-0 focus-visible:ring-0",
         )}
         type="tel"
         value={phone}
