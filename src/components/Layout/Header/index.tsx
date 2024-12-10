@@ -11,6 +11,9 @@ export default function Header() {
       <p className="hidden lg:flex items-center gap-x-2 cursor-default font-semibold lg:text-lg">
         <MapPin /> 73/14 Đường Số 1, p.11, q.Gò Vấp
       </p>
+      <p className="font-semibold text-xl hidden lg:block">
+        <span className="text-primary font-bold">Zalo </span>0918.234.767
+      </p>
     </header>
   );
 }
