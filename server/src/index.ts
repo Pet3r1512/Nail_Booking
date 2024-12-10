@@ -16,7 +16,7 @@ app.use("/*", cors());
 app.use(
   "/*",
   cors({
-    origin: "nail-booking.pages.dev",
+    origin: "https://dieptangnail.online/",
     // origin: "http://localhost:5173",
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
     allowMethods: ["POST", "GET", "OPTIONS"],
@@ -75,45 +75,49 @@ app.post("/bookings/", async (c) => {
   const bookingData = await c.req.json();
 
   try {
-    if (!bookingData || typeof bookingData !== "object") {
-      return c.json({ error: "Invalid Booking Data" }, 400);
+    // Validate booking data
+    const { name, phoneNumber, date, time } = bookingData;
+    if (!name || !phoneNumber || !date || !time) {
+      return c.json({ error: "Missing required fields" }, 400);
     }
 
     const postgresql = neon(c.env.DATABASE_URL);
     const db = drizzle(postgresql);
 
+    // Check for existing customer by phone number
     const existingCustomer = await db
-      .select()
+      .select({ id: customers.id, name: customers.name })
       .from(customers)
-      .where(eq(customers.phoneNumber, bookingData.phoneNumber));
+      .where(eq(customers.phoneNumber, phoneNumber))
+      .limit(1); // Limit to a single record
 
     let customerId;
-    if (existingCustomer.length === 0) {
+    if (existingCustomer.length > 0) {
+      // If the phone number exists, check the name
+      const customer = existingCustomer[0];
+      if (customer.name !== name) {
+        return c.json({ error: "Existed phone number with another name" }, 400);
+      }
+      customerId = customer.id;
+    } else {
+      // Create a new customer
       const [newCustomer] = await db
         .insert(customers)
-        .values({
-          name: bookingData.name,
-          phoneNumber: bookingData.phoneNumber,
-        })
-        .returning({ customerId: customers.id });
-      customerId = newCustomer.customerId;
-    } else {
-      customerId = existingCustomer[0].id;
+        .values({ name, phoneNumber })
+        .returning({ id: customers.id });
+      customerId = newCustomer.id;
     }
 
-    const newBooking = await db
+    // Insert the booking
+    const [newBooking] = await db
       .insert(bookings)
-      .values({
-        date: bookingData.date,
-        time: bookingData.time,
-        customerId: customerId,
-      })
+      .values({ date, time, customerId })
       .returning();
 
     return c.json({ success: true, booking: newBooking }, 201);
   } catch (error) {
-    console.error(error);
-    return c.json({ error: "Something went wrong." }, 500);
+    console.error("Error creating booking:", error);
+    return c.json({ error: "Something went wrong" }, 500);
   }
 });
 
