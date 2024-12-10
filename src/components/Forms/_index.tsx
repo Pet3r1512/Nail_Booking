@@ -55,12 +55,23 @@ export default function BookingForm() {
       );
       if (!response.ok || error !== "") {
         setError("Thất bại");
-        toast({
-          variant: "destructive",
-          className: "bg-red-500 text-white",
-          title: "Thất Bại",
-          description: "Xin vui lòng thử lại!",
-        });
+        const data = await response.json();
+        if (data.error === "Existed phone number with another name") {
+          toast({
+            variant: "destructive",
+            className: "bg-red-500 text-white",
+            title: "Thất Bại",
+            description:
+              "Quý khách đã đăng kí tên khác cùng với số điện thoại này!",
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            className: "bg-red-500 text-white",
+            title: "Thất Bại",
+            description: "Xin vui lòng thử lại!",
+          });
+        }
       }
       const data = await response.json();
       if (data.success) {
